@@ -1,0 +1,28 @@
+# TEMPORARY: three copies of the stub, named like the real services, so Prometheus/Promtail configs work unchanged.
+# Run:  docker compose -f monitoring/docker-compose.stub.yml up -d --build
+# Remove once the real services are in the main docker-compose.yml.
+name: stub
+
+services:
+  student-service:
+    build: ./stub-service
+    environment:
+      SERVICE_NAME: student-service
+    networks: [app-net]
+
+  room-service:
+    build: ./stub-service
+    environment:
+      SERVICE_NAME: room-service
+    networks: [app-net]
+
+  booking-service:
+    build: ./stub-service
+    environment:
+      SERVICE_NAME: booking-service
+    ports: ["8003:8000"]   # so you can curl it from your laptop
+    networks: [app-net]
+
+networks:
+  app-net:
+    external: true
